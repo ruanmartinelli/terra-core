@@ -46,7 +46,7 @@ def wvm(text):
 
 class Network:
     portStat = 1
-    def __init__(self,maxNode):
+    def __init__(self,maxNode, port):
         # Create components
         self.tossim = Tossim([])
         self.mac = self.tossim.mac()
@@ -56,17 +56,18 @@ class Network:
         self.liveFlag= True
 
         try:
-            test_cmd = 'nc -z localhost 9002'
+            test_cmd = "nc -z localhost " + str(port)
             self.portStat = subprocess.call(test_cmd, shell=True, stderr=subprocess.PIPE)
             if self.portStat == 0 :
                 return
             #print("Antes do SF",file=sys.stderr)
-            self.sf = SerialForwarder(9002)
+            self.sf = SerialForwarder(int(port))
             #print("Depois do SF",file=sys.stderr)
         except NameError:
             self.sfFlag=False
             wdbg("Executando sem o SerialForward!")
         except:
+            print(port)
             print("Error to start SF",file=sys.stderr)
         #print("Depois do SF",file=sys.stderr)
         
@@ -261,13 +262,13 @@ class Network:
     
 #----------------------------------------------------------
 
-def main(nLines,nColumnsA,nColumnsB,timeB,runTime):
+def main(nLines,nColumnsA,nColumnsB,timeB,runTime, port):
    
     nColumns = nColumnsA + nColumnsB
     maxNode = nColumns*10 + nLines
 
     # instantiate the network
-    net = Network(maxNode)
+    net = Network(maxNode, port)
     if net.portStat == 0 :
         print("",file=sys.stderr)
         print("#####   ###   ####  ",file=sys.stderr)
@@ -361,11 +362,13 @@ def userInput():
 
 if __name__ == '__main__':
     try:
-        main(9,9,0,0,10000)
+        if len(sys.argv) == 2:
+            main(9,9,0,0,10000, sys.argv[1])
+        else:
+            main(9,9,0,0,10000, 9002)
         wcmd("end")
     except SystemExit:
         raise               #let pass exit() calls
     except KeyboardInterrupt:
         sys.stderr.write("user abort.\n")   #short messy in user mode
         sys.exit(1) 
-0
