@@ -361,28 +361,7 @@ def userInput():
 
 if __name__ == '__main__':
     try:
-        if len(sys.argv) == 6 :
-            nLines=int(sys.argv[1]) 
-            nColumnsA=int(sys.argv[2])
-            nColumnsB=int(sys.argv[3])
-            timeB=int(sys.argv[4])
-            runTime=int(sys.argv[5])
-            sys.stderr.write("{} {} {} {} {}\n".format(nLines,nColumnsA,nColumnsB,timeB,runTime))
-            if ( nLines >= 1 and nLines <= 9 and \
-                 nColumnsA >= 1 and nColumnsA <=9 and \
-                 nColumnsB >= 0 and nColumnsB <= 9 and \
-                 (nColumnsA+nColumnsB) <= 9 and \
-                 timeB >= 0 and timeB <= 3600 and \
-                 runTime >= 0 and runTime <= 90000 and \
-                 runTime > timeB):
-                 main(nLines,nColumnsA,nColumnsB,timeB,runTime)
-            else:
-                printArgError();
-        else:
-            if len(sys.argv) == 1 : # request user input
-                userInput()
-            else:
-                printArgError();
+        main(9,9,0,0,10000)
         wcmd("end")
     except SystemExit:
         raise               #let pass exit() calls
