@@ -56,7 +56,8 @@ class Network:
         self.liveFlag= True
 
         try:
-            test_cmd = "nc -z localhost " + str(port)
+            test_cmd = ' '.join(["nc -z localhost", port])
+
             self.portStat = subprocess.call(test_cmd, shell=True, stderr=subprocess.PIPE)
             if self.portStat == 0 :
                 return
@@ -67,7 +68,7 @@ class Network:
             self.sfFlag=False
             wdbg("Executando sem o SerialForward!")
         except:
-            print(port)
+            
             print("Error to start SF",file=sys.stderr)
         #print("Depois do SF",file=sys.stderr)
         
@@ -372,3 +373,4 @@ if __name__ == '__main__':
     except KeyboardInterrupt:
         sys.stderr.write("user abort.\n")   #short messy in user mode
         sys.exit(1) 
+0
