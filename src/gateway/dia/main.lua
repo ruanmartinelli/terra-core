@@ -3,8 +3,8 @@ FileMonitor = require "FileMonitor"
 
 local tossam = require("tossam")
 
-local turbo = require("turbo")
-local Handler = class("Handler", turbo.web.RequestHandler)
+-- local turbo = require("turbo")
+-- local Handler = class("Handler", turbo.web.RequestHandler)
 
 ProgBin = require "ProgBin"
 
@@ -24,21 +24,21 @@ vID = tonumber( version_file:read('*l')) ;
 print ('vID do arquivo ' .. vID);
 version_file:close()
 
-function Handler:options()
+-- function Handler:options()
   --if (config.turbo.CORS) then
-    self:add_header('Access-Control-Allow-Methods', 'POST')
-    self:add_header('Access-Control-Allow-Headers', 'content-type')
-    self:add_header('Access-Control-Allow-Origin', '*')
+   -- self:add_header('Access-Control-Allow-Methods', 'POST')
+    -- self:add_header('Access-Control-Allow-Headers', 'content-type')
+    -- self:add_header('Access-Control-Allow-Origin', '*')
   --end
-end
+-- end
 
-function Handler:get()
-  self:write("GET OK")
-end
+-- function Handler:get()
+  -- self:write("GET OK")
+-- end
 
-function Handler:post()
-local json = turbo.escape.json_decode(self.request.body);
-conteudo = json.conteudo;
+-- function Handler:post()
+-- local json = turbo.escape.json_decode(self.request.body);
+-- conteudo = json.conteudo;
 
 enviou = false;
 exit = false;
@@ -52,7 +52,7 @@ while not(mote) do
   mote = tossam.connect
     {
     protocol = "sf",
-    host     = "192.168.65.138",
+    host     = "localhost",
     port     = 9002,
     nodeid   = 1
   }
@@ -115,9 +115,9 @@ else
 end
 end
 
-  --local f = io.open("blink_tutorial.vmx",'r')
-  --s_vmx = f:read("*a");
-  s_vmx = conteudo;
+  local f = io.open("blink_tutorial.vmx",'r')
+  s_vmx = f:read("*a");
+  -- s_vmx = conteudo;
   if s_vmx ~= nil then
 
     enviou = false;
@@ -248,14 +248,14 @@ end
       self:write(json.hello)]]--
 
     self:write("OK")
-  end
+  -- end
 
 
 
 
-  local app = turbo.web.Application:new({
-      {"/filevmx", Handler}
-  })
+  -- local app = turbo.web.Application:new({
+     -- {"/filevmx", Handler}
+  -- })
 
-  app:listen(8888)
-  turbo.ioloop.instance():start()
+  -- app:listen(8888)
+  -- turbo.ioloop.instance():start()
