@@ -1,4 +1,13 @@
 
+if(arg[1] == nil) then 
+	print('  [ERROR] missing parameter \'port\'')
+	print('  usage: lua main.lua <port>')
+	os.exit() 
+end;
+ 
+port = arg[1]
+print(port)
+
 local tossam = require("tossam")
 
 FileMonitor = require "FileMonitor"
@@ -33,7 +42,7 @@ while not(exit) do
         {
             protocol = "sf",
             host     = "localhost",
-            port     = 9002,
+            port     = port,
             nodeid   = 1
         }
         if mote then
