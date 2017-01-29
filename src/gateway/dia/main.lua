@@ -216,6 +216,3 @@ while (mote) do
     end
     
 end
-
-self:write("OK")
--- end
