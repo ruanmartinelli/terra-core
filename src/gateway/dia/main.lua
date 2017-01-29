@@ -6,7 +6,7 @@ if(arg[1] == nil) then
 end;
  
 port = arg[1]
-print(port)
+print('sending code to port:' .. port)
 
 local tossam = require("tossam")
 
@@ -105,7 +105,7 @@ while not(exit) do
         end
     end
     
-    local f = io.open("blink_tutorial.vmx",'r')
+    local f = io.open("sendMsg.vmx",'r')
     s_vmx = f:read("*a");
 
     if s_vmx ~= nil then
