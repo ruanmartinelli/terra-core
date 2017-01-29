@@ -1,5 +1,15 @@
+if(arg[1] == nil) then 
+	print('  [ERROR] missing parameter \'port\'')
+	print('  usage: lua main.lua <port>')
+	os.exit() 
+end;
+ 
+port = arg[1]
+print('listening for messages in port ' .. port)
+
+
 require"zmq"
-require"util/zhelpers"
+require"lib/zhelpers"
 require"math"
 --
 local tossam = require("tossam")
@@ -12,7 +22,7 @@ while not(exit) do
     local mote = tossam.connect {
         protocol = "sf",
         host     = "localhost",
-        port     = 9002,
+        port     = port,
         nodeid   = 1
     }
     if not(mote) then print("Connection error!"); return(1); end
