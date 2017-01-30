@@ -21,7 +21,7 @@ local exit = false
 while not(exit) do
     local mote = tossam.connect {
         protocol = "sf",
-        host     = "localhost",
+        host     = "192.168.1.115",
         port     = port,
         nodeid   = 1
     }
