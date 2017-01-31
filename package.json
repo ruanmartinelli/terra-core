@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "NODE_ENV=DEVELOPMENT && nodemon --ignore public/"
   },
   "repository": {
     "type": "git",
@@ -15,5 +16,15 @@
   "bugs": {
     "url": "https://github.com/ruanmartinelli/terra-core/issues"
   },
-  "homepage": "https://github.com/ruanmartinelli/terra-core#readme"
+  "homepage": "https://github.com/ruanmartinelli/terra-core#readme",
+  "dependencies": {
+    "bluebird": "^3.4.6",
+    "body-parser": "^1.15.2",
+    "cors": "^2.8.1",
+    "express": "^4.14.0",
+    "knex": "^0.12.6",
+    "lodash": "^4.17.2",
+    "morgan": "^1.7.0",
+    "mysql": "^2.12.0"
+  }
 }
