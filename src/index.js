@@ -5,7 +5,7 @@ const config = require('./config')
 const morgan = require('morgan')
 const bodyParser = require('body-parser')
 
-const port = process.env.PORT || 7887
+const port = process.env.PORT || config.port
 
 app.use(cors())
 app.set('port', port)
