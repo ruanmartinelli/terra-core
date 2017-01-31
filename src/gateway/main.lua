@@ -1,31 +1,40 @@
 if(arg[1] == nil) then 
 	print('  [ERROR] missing parameter \'port\'')
-	print('  usage: lua main.lua <port>')
+	print('  usage: lua main.lua <port> [<host>]')
 	os.exit() 
 end;
- 
+
+if(arg[2] == nil) then 
+    host = "192.168.1.115" 
+else 
+    host = arg[2]
+end
+
 port = arg[1]
-print('listening for messages in port ' .. port)
+
+print(' -- listening for messages in port ' .. port)
+print(' -- connecting to host ' .. host)
 
 
 require"zmq"
 require"lib/zhelpers"
 require"math"
---
+
 local tossam = require("tossam")
 local context = zmq.init(1)
 local publisher = context:socket(zmq.PUB)
+local exit = false
+
 publisher:bind("tcp://*:5563")
 
-local exit = false
 while not(exit) do
     local mote = tossam.connect {
         protocol = "sf",
-        host     = "192.168.1.115",
+        host     = host,
         port     = port,
         nodeid   = 1
     }
-    if not(mote) then print("Connection error!"); return(1); end
+    if not(mote) then print("  ! connection error\n  ! aborting"); return(1); end
 
     mote:register [[
     nx_struct msg_serial [145] {
@@ -37,16 +46,6 @@ while not(exit) do
         nx_uint32_t d32[2];
     };
     ]]
-
-
-    msg2 = {
-        id		= 1,
-        source	= 0,
-        target	= 1,
-        d8		= {1, 0, 0, 0},
-        d16		= {0, 0, 0, 0},
-        d32		= {0, 0}
-    }
 
     while (mote) do
         local stat, msg, emsg = pcall(function() return mote:receive() end)
