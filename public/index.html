@@ -1,0 +1,19 @@
+<html>
+
+<head>
+</head>
+
+<body>
+    <h1>terra startpage</h1>
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/socket.io/1.7.2/socket.io.min.js" charset="utf-8"></script>
+    <script>
+        var socket = io('localhost:3000')
+
+        socket.on('message', function (message) {
+            console.log(message)
+        })
+    </script>
+</body>
+
+</html>

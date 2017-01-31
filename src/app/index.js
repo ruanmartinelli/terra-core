@@ -4,7 +4,7 @@ module.exports.init = ( app ) => {
     app.del = app.delete
 
     // test route
-    app.get('/', (req, res, next) => res.send('api works'))
+    app.get('/', (req, res, next) => res.sendFile('../../public/index.html'))
 
     require('./event').init( app )
 

@@ -1,6 +1,10 @@
 const eventController = require('./event-controller')
+const eventBootstrap = require('./event-bootstrap')
 
-function init ( app ) {
+const init = (app) => {
+
+    eventBootstrap(app)
+
 
 }
 

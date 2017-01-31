@@ -7,10 +7,12 @@ const bodyParser = require('body-parser')
 
 const port = process.env.PORT || config.port
 
-app.use(cors())
 app.set('port', port)
 app.set('env', 'dev')
+
 app.use(bodyParser.json())
+app.use(cors())
+app.use( require('express').static(__dirname + '/../public' ))
 app.use(morgan('dev'))
 
 require('./app').init(app)
