@@ -53,7 +53,7 @@ while not(exit) do
             print(emsg)
             if msg then
                 print("------------------------------")
-                print("msgID: "..msg.id, "Source: ".. msg.source, "Target: ".. msg.target)
+                print("msgID: "..msg.id, "Source: ".. msg.source, "Target: ".. msg.target.." Port: "..port)
                 print("d8:",unpack(msg.d8))
                 print("d16:",unpack(msg.d16))
                 print("d32:",unpack(msg.d32))
@@ -63,11 +63,6 @@ while not(exit) do
                 -- Sends in JSON format which will later be parsed
                 publisher:send("{\"msgID\": \""..msg.id .. "\",\"Source\":\"".. msg.source.."\",\"Target\":\""..msg.target.."\",\"d8\":\""..unpack(msg.d8).."\",\"d16\":\""..unpack(msg.d16).."\",\"d32\":\""..unpack(msg.d32).."\"}")
 
-
-
-                msg.source = 0
-                msg.target = 0
-                mote:send(msg, 145,1)
             else
                 if emsg == "closed" then
                     print("\nConnection closed!")
