@@ -14,7 +14,7 @@ const bootstrap = (app) => {
     server.listen(3000)
 
     // zmq
-    subscriber.subscribe('test')
+    subscriber.subscribe('event')
     subscriber.connect('tcp://localhost:5563')
     subscriber.monitor(500, 0)
 
@@ -23,6 +23,7 @@ const bootstrap = (app) => {
     })
 
     subscriber.on('message', (channel, message) => {
+        io.emit('message', JSON.parse(message.toString()))
         console.log(' -- new message:', channel.toString(), message.toString())
     })
 }

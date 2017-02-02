@@ -50,21 +50,19 @@ while not(exit) do
     
     while (mote) do
         local stat, msg, emsg = pcall(function() return mote:receive() end)
-
-        msg.port = port
-
         if stat then
             print(emsg)
             if msg then
+                msg.port = port
+
                 print("------------------------------")
                 print("msgID: "..msg.id, "Source: ".. msg.source, "Target: ".. msg.target.." Port: "..msg.port)
                 print("d8:",unpack(msg.d8))
                 print("d16:",unpack(msg.d16))
                 print("d32:",unpack(msg.d32))
 
-                publisher:send("test", zmq.SNDMORE)
+                publisher:send("event", zmq.SNDMORE)
                 publisher:send(json.encode(msg))
-
 
             else
                 if emsg == "closed" then

@@ -6,12 +6,21 @@
 <body>
     <h1>terra startpage</h1>
 
+    <ul id="events"></ul>
+
+
     <script src="//cdnjs.cloudflare.com/ajax/libs/socket.io/1.7.2/socket.io.min.js" charset="utf-8"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js" charset="utf-8"></script>
     <script>
         var socket = io('localhost:3000')
 
         socket.on('message', function (message) {
-            console.log(message)
+            var text = 'Port: ' + message.port + ' | Source: ' + message.source
+
+            $('#events').append($('<li>').text(text))
+        })
+
+        socket.on('event', function (message) {
         })
     </script>
 </body>
