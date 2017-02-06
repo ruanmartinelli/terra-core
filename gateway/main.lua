@@ -26,7 +26,7 @@ local context = zmq.init(1)
 local publisher = context:socket(zmq.PUB)
 local exit = false
 
-publisher:bind("tcp://*:5563")
+publisher:bind("tcp://*:"..port)
 
 while not(exit) do
     local mote = tossam.connect {

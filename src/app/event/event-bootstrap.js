@@ -1,5 +1,6 @@
 const zmq = require('zmq')
 const subscriber = zmq.socket('sub')
+const ports = [9002, 9003, 9004, 9005, 9006, 9007, 9008, 9009, 9010, 9011, 9012]
 
 const bootstrap = (app) => {
 
@@ -15,7 +16,7 @@ const bootstrap = (app) => {
 
     // zmq
     subscriber.subscribe('event')
-    subscriber.connect('tcp://localhost:5563')
+    ports.map(port => subscriber.connect('tcp://localhost:' + port))
     subscriber.monitor(500, 0)
 
     subscriber.on('subscribe', (fd, ep) => {
@@ -24,7 +25,7 @@ const bootstrap = (app) => {
 
     subscriber.on('message', (channel, message) => {
         io.emit('message', JSON.parse(message.toString()))
-        console.log(' -- new message:', channel.toString(), message.toString())
+        // console.log(' -- new message:', channel.toString(), message.toString())
     })
 }
 

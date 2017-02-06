@@ -21,7 +21,6 @@ s_backupDir =   conf.s_backupDir --'backup'
 n_sleepTimeS =  conf.n_sleepTimeS;--3;
 exit =          conf.exit -- false
 
-
 local version_file = io.open("versionID.lua", "r")
 
 vID = tonumber( version_file:read('*l')) ;
