@@ -5,7 +5,7 @@ body {
 }
 
 .event-log{
-    overflow-y:hidden;
+    overflow-y: hidden;
     max-height: 300px;
     height: 300px;
     padding-top: 40px;

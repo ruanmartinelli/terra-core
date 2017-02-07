@@ -35,10 +35,11 @@ function drawChart() {
 var socket = io('localhost:3000')
 
 socket.on('message', function (message) {
-    var text = 'Port: ' + message.port + ' | Source: ' + message.source
+    var text = '[' + message.port + '] Source: ' + message.source + ' / Temperature: ' + message.value
 
     // push to event log
     $('#events').append($('<li>').text(text))
+    // $('#events').animate({"scrollBottom": $('#events')[0].scrollHeight}, "fast");
 
     $('#average-delay').text((Math.floor(Math.random() * 50) + 400) + 'ms')
 
