@@ -4,7 +4,8 @@ body {
     background-color:black
 }
 
-.event-log-container{
-    overflow-y:scroll;
+.event-log{
+    overflow-y:hidden;
     max-height: 300px;
+    height: 300px;
 }
