@@ -1,28 +1,31 @@
 <html>
 
 <head>
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="index.css">
 </head>
 
 <body>
-    <h1>terra startpage</h1>
+    <div class="container">
+        <h1>terra startpage</h1>
 
-    <ul id="events"></ul>
-
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="event-log">
+                    <ul id="events"></ul>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <!--<canvas id="chart" width="400" height="400"></canvas>-->
+                <div id="chart"></div>
+            </div>
+        </div>
+    </div>
 
     <script src="//cdnjs.cloudflare.com/ajax/libs/socket.io/1.7.2/socket.io.min.js" charset="utf-8"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js" charset="utf-8"></script>
-    <script>
-        var socket = io('localhost:3000')
-
-        socket.on('message', function (message) {
-            var text = 'Port: ' + message.port + ' | Source: ' + message.source
-
-            $('#events').append($('<li>').text(text))
-        })
-
-        socket.on('event', function (message) {
-        })
-    </script>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script src="index.js"></script>
 </body>
 
 </html>

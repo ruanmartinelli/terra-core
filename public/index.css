@@ -1,0 +1,10 @@
+body {
+    font-family: 'mono';
+    color: white;
+    background-color:black
+}
+
+.event-log-container{
+    overflow-y:scroll;
+    max-height: 300px;
+}

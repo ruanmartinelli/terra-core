@@ -1,3 +1,5 @@
+// lua main.lua 9005 192.168.1.117 & lua main.lua 9008 192.168.1.117 
+
 const zmq = require('zmq')
 const subscriber = zmq.socket('sub')
 const ports = [9002, 9003, 9004, 9005, 9006, 9007, 9008, 9009, 9010, 9011, 9012]
@@ -16,9 +18,11 @@ const bootstrap = (app) => {
 
     // zmq
     subscriber.subscribe('event')
-    ports.map(port => subscriber.connect('tcp://localhost:' + port))
-    subscriber.monitor(500, 0)
 
+    ports.map(port => subscriber.connect('tcp://localhost:' + port))
+
+    subscriber.monitor(500, 0)
+    
     subscriber.on('subscribe', (fd, ep) => {
         console.log('-- connected to publisher')
     })
