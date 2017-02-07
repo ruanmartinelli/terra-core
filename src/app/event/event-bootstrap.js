@@ -38,9 +38,9 @@ const bootstrap = (app) => {
 
 const startTestMode = (socket) => {
     setTimeout(() => {
-        socket.emit('message', { port: 9999, source: 11 })
+        socket.emit('message', { port: 9999, source: 11, value: _.random(0, 22) })
         startTestMode(socket)
-    }, _.random(1000, 4000))
+    }, _.random(500, 1500))
 }
 
 module.exports = bootstrap
