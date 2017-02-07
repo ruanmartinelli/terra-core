@@ -40,6 +40,7 @@ socket.on('message', function (message) {
     // push to event log
     $('#events').append($('<li>').text(text))
 
+    $('#average-delay').text((Math.floor(Math.random() * 50) + 400) + 'ms')
 
     // push to chart
     var random = Math.floor(Math.random() * 1200) + 400
