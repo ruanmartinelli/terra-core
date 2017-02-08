@@ -1,7 +1,9 @@
-const _ = require('lodash')
 const zmq = require('zmq')
 const subscriber = zmq.socket('sub')
 const ports = [9002, 9003, 9004, 9005, 9006, 9007, 9008, 9009, 9010, 9011, 9012]
+
+const sample = require('lodash/sample')
+const random = require('lodash/random')
 
 const bootstrap = (app) => {
 
@@ -42,21 +44,23 @@ const bootstrap = (app) => {
 }
 
 const getTemperature = () => {
-    const rollDice = () => _.random(1, 6) == _.random(1, 6)
+    const rollDice = () => random(1, 6) == random(1, 6)
 
-    return (rollDice() ? _.random(24, 27) : _.random(28, 32))
+    return (rollDice() ? random(24, 27) : random(28, 32))
 }
 
 const startTestMode = (socket) => {
+
     setTimeout(() => {
         socket.emit('message', {
-            gateway_time: new Date().getTime() - _.random(400, 500),
-            port: _.sample(ports),
-            id_mote: _.sample([11, 4, 9]),
+            gateway_time: new Date().getTime() - random(400, 500),
+            port: sample(ports),
+            id_mote: sample([11, 4, 9]),
             value: getTemperature()
         })
         startTestMode(socket)
-    }, _.random(500, 1500))
+    }, random(500, 1500))
+    
 }
 
 module.exports = bootstrap
