@@ -4,8 +4,8 @@ var chartData, chartOptions
 var data;
 
 data = [
-    ['Year', 'Event'],
-    [new Date(), 1000]
+    ['Time', 'Event'],
+    [new Date(), 10]
 ]
 
 chartOptions = {}
@@ -17,7 +17,7 @@ chartOptions.backgroundColor = 'black'
 
 chartOptions.legend = { textStyle: { color: 'white' } }
 chartOptions.titleTextStyle = { color: 'white' }
-chartOptions.hAxis = { textStyle: { color: 'white' }, titleTextStyle: { color: 'white' }, format: 'hh:mm:ss a' }
+chartOptions.hAxis = { textStyle: { color: 'white' }, titleTextStyle: { color: 'white' }, format: 'mm:ss' }
 chartOptions.vAxis = { textStyle: { color: 'white' }, titleTextStyle: { color: 'white' } }
 
 google.charts.load('current', { 'packages': ['corechart'] })
@@ -33,23 +33,26 @@ function drawChart() {
 
 // socket.io
 var socket = io('localhost:3000')
+var delays = []
 
 socket.on('message', function (message) {
-    var text = '[' + message.port + '] Source: ' + message.source + ' / Temperature: ' + message.value
+    var now = new Date().getTime()
 
-    // push to event log
+    delays.push(now - message.gateway_time)
+
+    var average_delay = delays.reduce((sum, a) => sum + a, 0) / delays.length
+
+    var text = '[' + message.port + ' / ' + message.id_mote + '] temperature: ' + message.value
+
     $('#events').append($('<li>').text(text))
-    // $('#events').animate({"scrollBottom": $('#events')[0].scrollHeight}, "fast");
-
-    $('#average-delay').text((Math.floor(Math.random() * 50) + 400) + 'ms')
+    $('#average-delay').text(average_delay.toFixed(0) + 'ms')
 
     // push to chart
-    var random = Math.floor(Math.random() * 1200) + 400
-
-    data.push([new Date(), random])
+    data.push([new Date(), message.value])
 
     if (data.length > 15) {
         let header = data[0]
+        
         data.shift()
         data.shift()
         data.unshift(header)
