@@ -54,6 +54,7 @@ while not(exit) do
             print(emsg)
             if msg then
                 msg.port = port
+                msg.gateway_time = os.time() * 1000
 
                 print("------------------------------")
                 print("msgID: "..msg.id, "Source: ".. msg.source, "Target: ".. msg.target.." Port: "..msg.port)
