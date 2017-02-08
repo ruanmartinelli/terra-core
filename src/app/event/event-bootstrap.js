@@ -40,16 +40,16 @@ const bootstrap = (app) => {
         console.log(' -- new message:', channel.toString(), message.toString())
     })
 
-    startTestMode(io)
+    if(app.get('env') === 'simulation') startSimulationMode(io)
 }
 
 const getTemperature = () => {
     const rollDice = () => random(1, 6) == random(1, 6)
 
-    return (rollDice() ? random(24, 27) : random(28, 32))
+    return (rollDice() ? random(24, 27) : random(28, 39))
 }
 
-const startTestMode = (socket) => {
+const startSimulationMode = (socket) => {
 
     setTimeout(() => {
         socket.emit('message', {
@@ -58,7 +58,7 @@ const startTestMode = (socket) => {
             id_mote: sample([11, 4, 9]),
             value: getTemperature()
         })
-        startTestMode(socket)
+        startSimulationMode(socket)
     }, random(500, 1500))
     
 }
