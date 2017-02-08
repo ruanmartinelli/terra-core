@@ -37,26 +37,34 @@ var delays = []
 
 socket.on('message', function (message) {
     var now = new Date().getTime()
+    var text = ''
+    var average_delay = 0;
 
-    delays.push(now - message.gateway_time)
-
-    var average_delay = delays.reduce((sum, a) => sum + a, 0) / delays.length
-
-    var text = '[' + message.port + ' / ' + message.id_mote + '] temperature: ' + message.value
-
-    $('#events').append($('<li>').text(text))
-    $('#average-delay').text(average_delay.toFixed(0) + 'ms')
-
-    // push to chart
-    data.push([new Date(), message.value])
-
-    if (data.length > 15) {
-        let header = data[0]
-        
-        data.shift()
-        data.shift()
-        data.unshift(header)
+    if (message.gateway_time) {
+        delays.push(now - message.gateway_time)
+        average_delay = delays.reduce((sum, a) => sum + a, 0) / delays.length
+        $('#average-delay').text(average_delay.toFixed(0) + 'ms')
     }
 
-    drawChart()
+    if (message.port && message.id_mote && message.value) {
+        text = '[' + message.port + ' / ' + message.id_mote + '] temperature: ' + message.value
+        $('#events').append($('<li>').text(text))
+    }
+
+    // push to chart
+    if (message.value) {
+
+        data.push([new Date(), message.value])
+
+        if (data.length > 15) {
+            let header = data[0]
+
+            data.shift()
+            data.shift()
+            data.unshift(header)
+        }
+
+        drawChart()
+    }
+
 })
