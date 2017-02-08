@@ -1,5 +1,3 @@
-// lua main.lua 9005 192.168.1.117 & lua main.lua 9008 192.168.1.117 
-
 const _ = require('lodash')
 const zmq = require('zmq')
 const subscriber = zmq.socket('sub')
@@ -29,16 +27,34 @@ const bootstrap = (app) => {
     })
 
     subscriber.on('message', (channel, message) => {
-        io.emit('message', JSON.parse(message.toString()))
-        // console.log(' -- new message:', channel.toString(), message.toString())
+        let m = JSON.parse(message.toString())
+
+        io.emit('message', {
+            port: m.port,
+            id_mote: m.source,
+            gateway_time: m.gateway_time,
+            value: getTemperature()
+        })
+        console.log(' -- new message:', channel.toString(), message.toString())
     })
 
     startTestMode(io)
 }
 
+const getTemperature = () => {
+    const rollDice = () => _.random(1, 6) == _.random(1, 6)
+
+    return (rollDice() ? _.random(24, 27) : _.random(28, 32))
+}
+
 const startTestMode = (socket) => {
     setTimeout(() => {
-        socket.emit('message', { port: 9999, source: 11, value: _.random(0, 22) })
+        socket.emit('message', {
+            gateway_time: new Date().getTime() - _.random(400, 500),
+            port: _.sample(ports),
+            id_mote: _.sample([11, 4, 9]),
+            value: getTemperature()
+        })
         startTestMode(socket)
     }, _.random(500, 1500))
 }
