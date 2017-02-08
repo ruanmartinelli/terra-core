@@ -7,7 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "NODE_ENV=development nodemon --ignore public/",
     "simulation": "NODE_ENV=simulation nodemon --ignore public/",
-    "start":"node index"
+    "start": "node index"
   },
   "repository": {
     "type": "git",
@@ -26,6 +26,7 @@
     "express": "^4.14.0",
     "knex": "^0.12.6",
     "lodash": "^4.17.2",
+    "moment": "^2.17.1",
     "morgan": "^1.7.0",
     "mysql": "^2.12.0",
     "socket.io": "^1.7.2",
