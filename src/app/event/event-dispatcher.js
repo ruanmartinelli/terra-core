@@ -10,11 +10,11 @@ const init = (app) => {
 }
 
 const dispatchEvent = (event) => {
-    // parse gateway_time
-    event.gateway_time = new Date(event.gateway_time)
-
     // send to web client
     io.emit('message', event)
+
+    // parse gateway_time
+    event.gateway_time = new Date(event.gateway_time)
 
     // save to db
     // todo: use redis as this can be a performance 
