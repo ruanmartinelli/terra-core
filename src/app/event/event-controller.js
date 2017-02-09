@@ -18,5 +18,27 @@ const getEvents = (req, res, next) => {
         .catch(next)
 }
 
+const getStats = (req, res, next) => {
+    const getMessageCount = eventModel.getCount('id')
+    const getMaxValue = eventModel.getMax('value')
+    const getMinValue = eventModel.getMin('value')
+    const getAverageValue = eventModel.getAverage('value')
+
+    Promise.all([
+        getMessageCount,
+        getMaxValue,
+        getMinValue,
+        getAverageValue
+    ])
+        .then(([
+            messageCount,
+            maxValue,
+            minValue,
+            averageValue
+        ]) => res.send({ averageValue, minValue, maxValue, messageCount }))
+        .catch(next)
+}
+
 module.exports.getEvent = getEvent
 module.exports.getEvents = getEvents
+module.exports.getStats = getStats

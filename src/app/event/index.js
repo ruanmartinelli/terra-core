@@ -9,6 +9,9 @@ const init = (app) => {
     listener.init(app)
 
     app.get('/api/event', eventController.getEvents)
+    
+    app.get('/api/event/stats', eventController.getStats)
+
     app.get('/api/event/:id', eventController.getEvent)
 }
 

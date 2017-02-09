@@ -24,8 +24,8 @@ const dispatchEvent = (event) => {
         .catch(console.log)
 
     // todo:
-    // - alerts when a certain threshold is reached
-    // - calls to external apis
+    // - alert when a certain threshold is reached
+    // - call to external apis
 }
 
 module.exports.init = init
