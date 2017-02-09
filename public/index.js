@@ -22,10 +22,14 @@ chartOptions.titleTextStyle = { color: 'white' }
 chartOptions.hAxis = { textStyle: { color: 'white' }, titleTextStyle: { color: 'white' }, format: 'mm:ss' }
 chartOptions.vAxis = { textStyle: { color: 'white' }, titleTextStyle: { color: 'white' } }
 
+var googleChartLoaded = false
+
 google.charts.load('current', { 'packages': ['corechart'] })
 google.charts.setOnLoadCallback(drawChart)
 
 function drawChart() {
+    googleChartLoaded = true
+
     chartData = google.visualization.arrayToDataTable(data)
 
     chart = new google.visualization.LineChart(document.getElementById('chart'))
@@ -67,8 +71,7 @@ socket.on('message', function (message) {
             data.shift()
             data.unshift(header)
         }
-
-        drawChart()
+        if (googleChartLoaded) drawChart()
     }
 
 })
