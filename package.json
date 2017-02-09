@@ -7,7 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "NODE_ENV=development nodemon --ignore public/",
     "simulation": "NODE_ENV=simulation nodemon --ignore public/",
-    "start": "node index"
+    "start": "NODE_ENV=simulation node index"
   },
   "repository": {
     "type": "git",
