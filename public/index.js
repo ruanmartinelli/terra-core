@@ -1,4 +1,6 @@
-// chart
+/* -------------------------------------
+                 Chart
+---------------------------------------*/
 var chart
 var chartData, chartOptions
 var data;
@@ -31,7 +33,9 @@ function drawChart() {
     chart.draw(chartData, chartOptions)
 }
 
-// socket.io
+/* -------------------------------------
+            Socket.io
+---------------------------------------*/
 var socket = io('localhost:3000')
 var delays = []
 
@@ -43,7 +47,7 @@ socket.on('message', function (message) {
     if (message.gateway_time) {
         delays.push(now - message.gateway_time)
         average_delay = delays.reduce((sum, a) => sum + a, 0) / delays.length
-        $('#average-delay').text(average_delay.toFixed(0) + 'ms')
+
     }
 
     if (message.port && message.id_mote && message.value) {
@@ -65,6 +69,45 @@ socket.on('message', function (message) {
         }
 
         drawChart()
+    }
+
+})
+
+/* -------------------------------------
+               API Calls
+---------------------------------------*/
+var loading = false
+
+function getStats(delay, callback) {
+    loading = true
+    $.get('/api/event/stats', function (data) {
+
+        // adds a tiny delay before
+        // displaying the new data
+        // why? because the api call
+        // is too fast and my cool animation
+        // does not play well =(
+        setTimeout(function () {
+            loading = false
+            $('#average-temperature').text(data.averageValue.toFixed(0) + ' °c')
+            $('#max-temperature').text(data.maxValue + ' °c')
+            $('#min-temperature').text(data.minValue + ' °c')
+            $('#message-count').text(data.messageCount.toLocaleString('en-US') + '')
+
+            if (callback) callback()
+        }, delay)
+    })
+}
+
+getStats(0)
+
+$('.stats-item').click(function () {
+    $('.stats-item').addClass('loading-cover')
+
+    if (!loading) {
+        getStats(3000, function () {
+            $('.stats-item').removeClass('loading-cover')
+        })
     }
 
 })
