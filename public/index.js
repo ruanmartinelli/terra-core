@@ -47,7 +47,7 @@ socket.on('message', function (message) {
     if (message.gateway_time) {
         delays.push(now - message.gateway_time)
         average_delay = delays.reduce((sum, a) => sum + a, 0) / delays.length
-
+        $('#average-delay').text(average_delay.toFixed(0) + 'ms')
     }
 
     if (message.port && message.id_mote && message.value) {
