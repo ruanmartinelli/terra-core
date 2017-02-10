@@ -1,4 +1,8 @@
+const _ = require('lodash')
+
 const eventModel = require('./event-model')
+
+let fakeMessageCount = 1500
 
 const getEvent = (req, res, next) => {
     const id = req.params.id
@@ -19,6 +23,19 @@ const getEvents = (req, res, next) => {
 }
 
 const getStats = (req, res, next) => {
+    // non development envs will send a mock response
+    // because there is not a database to fetch data yet 
+    if (req.app.get('env').toUpperCase() !== 'development'.toUpperCase()) {
+        fakeMessageCount += + _.random(5, 30)
+
+        return res.send({
+            averageValue: _.random(23, 33),
+            minValue: 24,
+            maxValue: 39,
+            messageCount: fakeMessageCount
+        })
+    }
+
     const getMessageCount = eventModel.getCount('id')
     const getMaxValue = eventModel.getMax('value')
     const getMinValue = eventModel.getMin('value')
