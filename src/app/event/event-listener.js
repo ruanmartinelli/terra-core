@@ -30,7 +30,8 @@ const init = (app) => {
         console.log(' -- new message:', channel.toString(), message.toString())
     })
 
-    if (app.get('env') === 'simulation') startSimulationMode()
+    // runs simulation in production too
+    if (app.get('env').toUpperCase() !== 'development'.toUpperCase()) startSimulationMode()
 }
 
 const getTemperature = () => {
