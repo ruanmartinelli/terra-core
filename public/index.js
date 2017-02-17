@@ -101,7 +101,7 @@ function getStats(delay, callback) {
             $('#average-temperature').text(data.averageValue.toFixed(0) + ' °c')
             $('#max-temperature').text(data.maxValue + ' °c')
             $('#min-temperature').text(data.minValue + ' °c')
-            $('#message-count').text(data.message_count.toLocaleString('en-US') + '')
+            $('#message-count').text(data.messageCount.toLocaleString('en-US') + '')
 
             if (callback) callback()
         }, delay)
