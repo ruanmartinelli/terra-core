@@ -42,11 +42,13 @@ function drawChart() {
 ---------------------------------------*/
 var socket = io('http://localhost:3000')
 var delays = []
+var message_count = 0
 
 socket.on('message', function (message) {
     var now = new Date().getTime()
     var text = ''
     var average_delay = 0;
+    message_count++
 
     if (message.gateway_time) {
         delays.push(now - message.gateway_time)
@@ -55,7 +57,11 @@ socket.on('message', function (message) {
     }
 
     if (message.port && message.id_mote && message.value) {
-        text = '[' + message.port + ' / ' + message.id_mote + '] temperature: ' + message.value
+        text = '[' + message.port + ' / ' + message.id_mote + '] \t\t temperature: ' + message.value
+
+
+        if (message_count > 10) $('#events li').first().remove()
+
         $('#events').append($('<li>').text(text))
     }
 
@@ -95,7 +101,7 @@ function getStats(delay, callback) {
             $('#average-temperature').text(data.averageValue.toFixed(0) + ' °c')
             $('#max-temperature').text(data.maxValue + ' °c')
             $('#min-temperature').text(data.minValue + ' °c')
-            $('#message-count').text(data.messageCount.toLocaleString('en-US') + '')
+            $('#message-count').text(data.message_count.toLocaleString('en-US') + '')
 
             if (callback) callback()
         }, delay)
