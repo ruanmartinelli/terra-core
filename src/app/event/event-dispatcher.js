@@ -4,7 +4,10 @@ const eventModel = require('./event-model')
 
 const init = (app) => {
     const server = require('http').createServer(app)
+    
     io = require('socket.io')(server)
+
+
     io.on('connection', (socket) => console.log(' -- user connected'))
 
     env = app.get('env')
