@@ -40,7 +40,7 @@ function drawChart() {
 /* -------------------------------------
             Socket.io
 ---------------------------------------*/
-var socket = io('http://localhost:3000')
+var socket = io('localhost:3000')
 var delays = []
 var message_count = 0
 

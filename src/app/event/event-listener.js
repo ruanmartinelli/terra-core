@@ -37,7 +37,7 @@ const init = (app) => {
 const getTemperature = () => {
     const rollDice = () => random(1, 6) == random(1, 6)
 
-    return (rollDice() ? random(24, 27) : random(28, 39))
+    return (rollDice() ? random(-15, -5) : random(-15, 1))
 }
 
 const startSimulationMode = () => {

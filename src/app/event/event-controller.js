@@ -29,9 +29,9 @@ const getStats = (req, res, next) => {
         fakeMessageCount += + _.random(5, 30)
 
         return res.send({
-            averageValue: _.random(23, 33),
-            minValue: 24,
-            maxValue: 39,
+            averageValue: _.random(-10, -5),
+            minValue: -12,
+            maxValue: -2,
             messageCount: fakeMessageCount
         })
     }

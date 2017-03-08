@@ -5,7 +5,7 @@ if(arg[1] == nil) then
 end;
 
 if(arg[2] == nil) then 
-    host = "192.168.1.115" 
+    host = "192.168.10.60" 
 else 
     host = arg[2]
 end

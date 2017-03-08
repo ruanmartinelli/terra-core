@@ -22,7 +22,7 @@ const dispatchEvent = (event) => {
     // parse gateway_time
     event.gateway_time = new Date(event.gateway_time)
 
-    if (env.toUpperCase() === 'develoment'.toUpperCase()) {
+    if (env.toUpperCase() === 'development'.toUpperCase()) {
 
         // save to db
         // todo: use redis as this can be a performance 
