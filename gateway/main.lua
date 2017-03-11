@@ -15,7 +15,6 @@ port = arg[1]
 print(' -- listening for messages in port ' .. port)
 print(' -- connecting to host ' .. host)
 
-
 require"zmq"
 require"lib/zhelpers"
 require"math"

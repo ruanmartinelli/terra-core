@@ -57,7 +57,7 @@ class Network:
 
         try:
             test_cmd = ' '.join(["nc -z localhost", port])
-
+            print(port)
             self.portStat = subprocess.call(test_cmd, shell=True, stderr=subprocess.PIPE)
             if self.portStat == 0 :
                 return
@@ -154,61 +154,11 @@ class Network:
         """Switch-on a mote"""
         moteId = self.MoteInic+mote
         self.tossim.getNode(moteId).bootAtTime(self.tossim.time())
+
         # Connect mote 1 to 11
         #if ((mote==self.BSConnectMote)):
         self.radio.add(1,moteId,Gain)
         self.radio.add(moteId,1,Gain)
-
-        #if  moteId/10 == 1 and moteId%10 > 1 :  # NOT Left	
-            # Connect x<->x+1 (bottom)
-            #self.addRadio(moteId,self.radioDir['B'])
-            # Connect x<->x-1 (top)
-            #self.addRadio(moteId,self.radioDir['T'])
-            # Connect x<->x+10 (right)
-            #self.addRadio(moteId,self.radioDir['R'])
-            # Connect x<->x+9 (top-right)
-            #self.addRadio(moteId,self.radioDir['TR'])
-		    # Connect x<->x+11 (bottom-right)
-            #self.addRadio(moteId,self.radioDir['BR'])
-        #if  moteId%10 == 1:	# NOT Top
-            # Connect x<->x+1 (bottom)
-            #self.addRadio(moteId,self.radioDir['B'])
-            # Connect x<->x+10 (right)
-            #self.addRadio(moteId,self.radioDir['R'])
-            # Connect x<->x-10 (left)
-            #self.addRadio(moteId,self.radioDir['L'])
-		    # Connect x<->x-9 (bottom-left)
-            #self.addRadio(moteId,self.radioDir['BL'])
-		    # Connect x<->x+11 (bottom-right)
-            #self.addRadio(moteId,self.radioDir['BR'])
-        #if  moteId%10 == 9:	# NOT Bottom
-            # Connect x<->x-1 (top)
-            #self.addRadio(moteId,self.radioDir['T'])
-            # Connect x<->x+10 (right)
-            #self.addRadio(moteId,self.radioDir['R'])
-            # Connect x<->x-10 (left)
-            #self.addRadio(moteId,self.radioDir['L'])
-            # Connect x<->x+9 (top-right)
-            #self.addRadio(moteId,self.radioDir['TR'])
-            # Connect x<->x-11 (top-left)
-            #self.addRadio(moteId,self.radioDir['TL'])
-        #if  moteId/10 > 1 and moteId%10 > 1 and moteId%10 < 9:  # all	
-            # Connect x<->x+1 (bottom)
-            #self.addRadio(moteId,self.radioDir['B'])
-            # Connect x<->x-1 (top)
-            #self.addRadio(moteId,self.radioDir['T'])
-            # Connect x<->x+10 (right)
-            #self.addRadio(moteId,self.radioDir['R'])
-            # Connect x<->x-10 (left)
-            #self.addRadio(moteId,self.radioDir['L'])
-            # Connect x<->x+9 (top-right)
-            #self.addRadio(moteId,self.radioDir['TR'])
-		    # Connect x<->x-9 (bottom-left)
-            #self.addRadio(moteId,self.radioDir['BL'])
-		    # Connect x<->x+11 (bottom-right)
-            #self.addRadio(moteId,self.radioDir['BR'])
-            # Connect x<->x-11 (top-left)
-            #self.addRadio(moteId,self.radioDir['TL'])
 
         # need at least one step to excute the command
         self.execSteps(1) 
@@ -373,4 +323,3 @@ if __name__ == '__main__':
     except KeyboardInterrupt:
         sys.stderr.write("user abort.\n")   #short messy in user mode
         sys.exit(1) 
-0
