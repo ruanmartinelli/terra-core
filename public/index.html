@@ -1,70 +1,54 @@
-<html>
+<html ng-app="app">
 
 <head>
-    <title>terra web</title>
+    <title>TerraWeb</title>
     <meta id="viewport" name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
-    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//bootswatch.com/superhero/bootstrap.css">
     <link rel="stylesheet" href="index.css">
 </head>
 
-<body>
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-6">
-                <h1 style="color:red">terra web</h1>
-            </div>
-        </div>
+<body ng-controller="MainController">
 
-        <div class="row">
-            <div class="col-lg-4">
-                <div class="event-log">
-                    <ul id="events"></ul>
-                </div>
-            </div>
-            <div class="col-lg-5">
-                <div id="chart"></div>
-            </div>
-            <div class="col-lg-3">
-                <div class="delay">
-                    <h1 id="average-delay">n/a</h1>
-                    average delay
-                </div>
-            </div>
-        </div>
-        <div class="stats">
-            <div class="row">
-                <div class="col-lg-3">
-                    <div class="stats-item">
-                        <h1 id="message-count">n/a</h1>
-                        sensor readings
+    <div class="container">
+
+        <h1>Terra<strong>Web</strong></h1>
+
+        <div class="row" ng-repeat="network in networks">
+            <div class="col-lg-12">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <h2>Network {{network.id}}</h2>
+                        <h4 class="text-muted">{{network.address}}:{{network.port}}</h4>
+                        <h4 class="text-muted">{{network.model}}</h4>
                     </div>
                 </div>
-                <div class="col-lg-3">
-                    <div class="stats-item">
-                        <h1 id="average-temperature">n/a</h1>
-                        average temperature
+
+                <div class="row" ng-if="$index ===1">
+                    <div class="col-lg-12">
+                        <!--<canvas id="mychart" width="250" height="250"></canvas>-->
                     </div>
                 </div>
-                <div class="col-lg-3">
-                    <div class="stats-item">
-                        <h1 id="max-temperature">n/a</h1>
-                        max temperature
+
+                <div class="row text-center">
+                    <div class="col-lg-1" ng-repeat="mote_id in network.mote_ids">
+                        {{mote_id}}
                     </div>
                 </div>
-                <div class="col-lg-3">
-                    <div class="stats-item">
-                        <h1 id="min-temperature">n/a</h1>
-                        min temperature
-                    </div>
-                </div>
+
             </div>
         </div>
     </div>
 
-    <script src="//cdnjs.cloudflare.com/ajax/libs/socket.io/1.7.2/socket.io.min.js" charset="utf-8"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js" charset="utf-8"></script>
-    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-    <script src="index.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.1/angular.min.js" charset="utf-8"></script>
+
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/socket.io/1.7.2/socket.io.min.js" charset="utf-8"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js" charset="utf-8"></script>
+
+    <script src="app.js" charset="utf-8"></script>
+
 </body>
+
 
 </html>

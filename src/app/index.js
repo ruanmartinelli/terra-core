@@ -6,5 +6,6 @@ module.exports.init = (app) => {
     app.get('/', (req, res, next) => res.sendFile('../../public/index.html'))
 
     require('./event').init(app)
+    require('./network').init(app)
 
 }
