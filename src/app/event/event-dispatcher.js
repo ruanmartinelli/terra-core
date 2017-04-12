@@ -17,7 +17,7 @@ const init = (app) => {
 }
 
 const dispatchEvent = (event) => {
-    
+
     // send to web client via socket.io
     io.emit('message', event)
 
@@ -34,8 +34,6 @@ const dispatchEvent = (event) => {
 
     // if (env.toUpperCase() !== 'DEVELOPMENT') 
     convert(event)
-
-    console.log(event)
 }
 
 const convert = (event) => {
@@ -56,7 +54,6 @@ const convert = (event) => {
             if (!network.mote_ids.includes(event.source)) return
 
             event.celsius = functions[network.model](event.d16[0])
-            console.log('-- data converted to celsius: ', event.celsius)
         })
     }
 }
