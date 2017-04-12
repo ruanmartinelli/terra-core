@@ -1,7 +1,5 @@
 const _ = require('lodash')
-
 const eventModel = require('./event-model')
-
 let fakeMessageCount = 1500
 
 const getEvent = (req, res, next) => {

@@ -17,51 +17,48 @@ const init = (app) => {
 }
 
 const dispatchEvent = (event) => {
-    // send to web client
+    
+    // send to web client via socket.io
     io.emit('message', event)
 
     // parse gateway_time
     event.gateway_time = new Date(event.gateway_time)
 
+    // save to database
+    // eventModel.addEvent(event).catch(console.log)
 
-    if (env.toUpperCase() !== 'development'.toUpperCase()) {
-        // refer to "complementary functions" in essays
+    // // uncoment to test conversion
+    event.id = 1
+    event.d16 = [475, 0, 0, 0]
+    event.source = 11
 
-        const functions = {
-            'MDA100': () => 0, // TODO
-            'TELOSB': telosbConvertTemperature
-        }
+    // if (env.toUpperCase() !== 'DEVELOPMENT') 
+    convert(event)
 
-        // // uncoment to test conversion
-        // event.id = 1
-        // event.d16 = [475, 0, 0, 0]
-        // event.source = 11
+    console.log(event)
+}
 
-        // event contains temperature data
-        if (event.id && event.id == config.id_temperature_event) {
+const convert = (event) => {
 
-            // search for network model using the sensor identifier (souce)
-            config.networks.forEach((network) => {
+    const networks = config.networks
 
-                if (network.mote_ids.includes(event.source)) {
-                    // apply conversion function
-                    event.celsius = functions[network.model](event.d16[0])
-                    console.log('-- data converted to celsius: ', event.celsius)
-                }
-            })
-        }
-
-        // save to db
-        // todo: use redis as this can be a performance 
-        //       bottleneck in the future
-        eventModel
-            .addEvent(event)
-            .catch(console.log)
+    const functions = {
+        'MDA100': () => 0, // TODO
+        'TELOSB': telosbConvertTemperature
     }
 
-    // todo:
-    // - alert when a certain threshold is reached
-    // - call to external apis
+    const data_is_temperature = event.id && event.id == config.id_temperature_event
+
+    if (data_is_temperature) {
+
+        networks.forEach((network) => {
+            // node id not registered in config
+            if (!network.mote_ids.includes(event.source)) return
+
+            event.celsius = functions[network.model](event.d16[0])
+            console.log('-- data converted to celsius: ', event.celsius)
+        })
+    }
 }
 
 module.exports.init = init

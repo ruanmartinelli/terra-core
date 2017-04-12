@@ -8,35 +8,39 @@ const dispatcher = require('./event-dispatcher')
 const ports = [9002, 9003, 9004, 9005, 9006, 9007, 9008, 9009, 9010, 9011, 9012]
 
 const init = (app) => {
-    const is_dev = app.get('env').toUpperCase() == 'development'.toUpperCase()
 
     subscriber.subscribe('event')
 
     ports.map(port => subscriber.connect('tcp://localhost:' + port))
 
-    subscriber.monitor(500, 0)
+    // subscriber.monitor(500, 0)
 
     subscriber.on('subscribe', (fd, ep) => console.log('-- connected to publisher'))
 
     subscriber.on('message', (channel, message) => {
         let m = JSON.parse(message.toString())
 
-        if (is_dev) dispatcher.dispatchEvent(m)
-        
-        if (!is_dev) {
-            dispatcher.dispatchEvent({
-                port: m.port,
-                id_mote: m.source,
-                gateway_time: m.gateway_time,
-                value: getTemperature()
-            })
-        }
+        m.id_mote = m.source
+        m.fake_value = getTemperature()
 
-        console.log(' -- new message:', channel.toString(), message.toString())
+        dispatcher.dispatchEvent(m)
+
+        // if (!is_dev) {
+        //     dispatcher.dispatchEvent({
+        //         port: m.port,
+        //         id_mote: m.source,
+        //         gateway_time: m.gateway_time,
+        //         value: getTemperature()
+        //     })
+        // }
+
+        console.log(' [New Message]: ', channel.toString(), message.toString())
     })
 
-    // runs simulation in production too
-    if (!is_dev) startSimulationMode()
+}
+
+const initSimulation = (app) => {
+    startSimulationMode()
 }
 
 const getTemperature = () => {
@@ -62,3 +66,4 @@ const startSimulationMode = () => {
 }
 
 module.exports.init = init
+module.exports.initSimulation = initSimulation
