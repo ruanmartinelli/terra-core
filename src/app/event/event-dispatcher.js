@@ -51,8 +51,6 @@ const dispatchEvent = (raw_event) => {
 
     const event = Event(raw_event)
     
-    console.log(event)
-
     // send to web client via socket.io
     io.emit('message', event)
 
