@@ -25,44 +25,30 @@ const init = (app) => {
 
         dispatcher.dispatchEvent(m)
 
-        // if (!is_dev) {
-        //     dispatcher.dispatchEvent({
-        //         port: m.port,
-        //         id_mote: m.source,
-        //         gateway_time: m.gateway_time,
-        //         value: getTemperature()
-        //     })
-        // }
-
         console.log(' [New Message]: ', channel.toString(), message.toString())
     })
 
 }
 
 const initSimulation = (app) => {
-    startSimulationMode()
-}
 
-const getTemperature = () => {
-    const rollDice = () => random(1, 6) == random(1, 6)
+    const interval = 2000
+    let counter = 0
 
-    return (rollDice() ? random(-15, -5) : random(-15, 1))
-}
-
-const startSimulationMode = () => {
-
-    setTimeout(() => {
-        const time = moment().format('hh:mm:ss')
-        console.log(`[ ${time}h ] sending message`)
-
-        dispatcher.dispatchEvent({
+    setInterval(() => {
+        const fake_event = {
+            port: random(9002, 9005),
+            source: random(19, 39),
             gateway_time: new Date().getTime() - random(400, 500),
-            port: sample(ports),
-            id_mote: sample([11, 4, 9]),
-            value: getTemperature()
-        })
-        startSimulationMode()
-    }, random(500, 1500))
+            d8: [counter++, 0, 0, 0],
+            d16: [random(400, 470), 0, 0, 0],
+            target: 30
+        }
+
+        dispatcher.dispatchEvent(fake_event)
+    }, interval)
+
+
 }
 
 module.exports.init = init
