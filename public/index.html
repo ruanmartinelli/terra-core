@@ -23,9 +23,11 @@
                     </div>
                 </div>
 
-                <div class="row" ng-if="$index ===1">
-                    <div class="col-lg-12">
+                <div class="row">
+                    <div class="col-lg-6">
                         <!--<canvas id="mychart" width="250" height="250"></canvas>-->
+                        <canvas id="line" width="10" class="chart chart-line" chart-data="charts[network.id].data" chart-labels="charts[network.id].labels"
+                            chart-series="charts[network.id].series" chart-options="charts[network.id].options">
                     </div>
                 </div>
 
@@ -42,9 +44,11 @@
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js" charset="utf-8"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.1/angular.min.js" charset="utf-8"></script>
 
+    <script src="//cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.4/lodash.min.js" charset="utf-8"></script>
 
     <script src="//cdnjs.cloudflare.com/ajax/libs/socket.io/1.7.2/socket.io.min.js" charset="utf-8"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js" charset="utf-8"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/angular-chart.js/1.1.1/angular-chart.min.js" charset="utf-8"></script>
 
     <script src="app.js" charset="utf-8"></script>
 
