@@ -58,7 +58,7 @@ const dispatchEvent = (raw_event) => {
     event.gateway_time = new Date(event.gateway_time)
 
     // save to database
-    // eventModel.addEvent(event).catch(console.log)
+    eventModel.addEvent(event)
 
     // TODO
     // convert(event)

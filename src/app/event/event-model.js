@@ -10,6 +10,12 @@ const columns = [
     'gateway_time'
 ]
 
+//lowdb
+const low = require('lowdb')
+const db = low('db.json')
+
+db.defaults({ events: [] }).write()
+
 const getEvents = ({
     id,
     port,
@@ -40,14 +46,17 @@ function getEvent(id) {
 }
 
 const addEvent = (event) => {
-    let query = qb
-        .insert(event)
-        .into(table)
 
-    return query
-        .catch(err => error.database('Error adding event', err))
-        .then(_.head)
-        .then(getEvent)
+    db.get('events').push(event).write()
+
+    // let query = qb
+    //     .insert(event)
+    //     .into(table)
+
+    // return query
+    //     .catch(err => error.database('Error adding event', err))
+    //     .then(_.head)
+    //     .then(getEvent)
 }
 
 const getCount = (field) => {
