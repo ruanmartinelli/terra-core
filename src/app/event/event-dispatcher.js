@@ -33,8 +33,8 @@ const Event = (e) => {
     if (e.d16 && e.d16[0]) {
 
         // TODO: add correct validation of sensor data type
-        const is_temperature = false
-        const is_luminosity = false
+        const is_temperature = true
+        const is_luminosity = true
 
         if (is_luminosity) event.raw_luminosity = e.d16[0]
         if (is_temperature) event.raw_temperature = e.d16[0]

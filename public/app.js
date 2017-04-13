@@ -12,6 +12,8 @@ function MainController($scope, $http, $timeout) {
 
     const socket = io('localhost:3000')
     $scope.charts = []
+    $scope.temperature_charts = {}
+    $scope.luminosity_charts = {}
     $scope.networks = []
 
 
@@ -29,11 +31,37 @@ function MainController($scope, $http, $timeout) {
 
     socket.on('message', (message) => {
 
-        console.log('[New Message] ', message)
+        const network = _.find($scope.networks, net => {
+            return _.includes(net.mote_ids, message.id_mote)
+        })
+
+        console.log('New message from network ' + network.id, message)
+
+        const temp = message.temperature || message.raw_temperature
+        const lumi = message.luminosity || message.raw_luminosity
+        const time = moment().format('hh:mm:ss')
 
         $timeout(() => {
-            $scope.charts[$scope.networks[0].id].data[0][1] = _.random(10, 100)
-        },5000)
+            if (!network) return
+
+            // temperature chart
+            $scope.temperature_charts[network.id].data[0].push(temp)
+            $scope.temperature_charts[network.id].labels.push(time)
+
+            if ($scope.temperature_charts[network.id].data[0].length > 7) {
+                $scope.temperature_charts[network.id].data[0].shift()
+                $scope.temperature_charts[network.id].labels.shift()
+            }
+
+            //luminosity chart
+            $scope.luminosity_charts[network.id].data[0].push(lumi)
+            $scope.luminosity_charts[network.id].labels.push(time)
+
+            if ($scope.luminosity_charts[network.id].data[0].length > 7) {
+                $scope.luminosity_charts[network.id].data[0].shift()
+                $scope.luminosity_charts[network.id].labels.shift()
+            }
+        }, 0)
 
     })
 
@@ -45,12 +73,16 @@ function MainController($scope, $http, $timeout) {
         _.forEach($scope.networks, (network) => {
 
             let chart = {}
-            chart.options = {}
-            chart.labels = ["January", "February", "March", "April", "May", "June", "July"]
-            chart.series = ['Series A']
-            chart.data = [[65, 59, 80, 81, 56, 55, 40]]
+            chart.options = { animation: false, }
+            chart.labels = [(moment().format('LTS'))]
+            chart.series = ['A']
+            chart.data = [[0]]
 
             $scope.charts[network.id] = chart
+
+            $scope.temperature_charts[network.id] = chart
+
+            $scope.luminosity_charts[network.id] = chart
         })
     }
 

@@ -25,9 +25,12 @@
 
                 <div class="row">
                     <div class="col-lg-6">
-                        <!--<canvas id="mychart" width="250" height="250"></canvas>-->
-                        <canvas id="line" width="10" class="chart chart-line" chart-data="charts[network.id].data" chart-labels="charts[network.id].labels"
-                            chart-series="charts[network.id].series" chart-options="charts[network.id].options">
+                        <canvas id="line" width="10" class="chart chart-line" chart-data="temperature_charts[network.id].data" chart-labels="temperature_charts[network.id].labels"
+                            chart-series="temperature_charts[network.id].series" chart-options="temperature_charts[network.id].options">
+                    </div>
+                    <div class="col-lg-6">
+                        <canvas id="line" width="10" class="chart chart-line" chart-data="luminosity_charts[network.id].data" chart-labels="luminosity_charts[network.id].labels"
+                            chart-series="luminosity_charts[network.id].series" chart-options="luminosity_charts[network.id].options">
                     </div>
                 </div>
 
@@ -45,6 +48,7 @@
     <script src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.1/angular.min.js" charset="utf-8"></script>
 
     <script src="//cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.4/lodash.min.js" charset="utf-8"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js" charset="utf-8"></script>
 
     <script src="//cdnjs.cloudflare.com/ajax/libs/socket.io/1.7.2/socket.io.min.js" charset="utf-8"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js" charset="utf-8"></script>
