@@ -30,13 +30,13 @@
                     </div>
                     <div class="col-lg-6">
                         <canvas id="line" width="10" class="chart chart-line" chart-data="luminosity_charts[network.id].data" chart-labels="luminosity_charts[network.id].labels"
-                            chart-series="luminosity_charts[network.id].series" chart-options="luminosity_charts[network.id].options">
+                            chart-series="luminosity_charts[network.id].series" chart-options="luminosity_charts[network.id].options" chart-colors="luminosity_charts[network.id].colors">
                     </div>
                 </div>
 
                 <div class="row text-center">
                     <div class="col-lg-1" ng-repeat="mote_id in network.mote_ids">
-                        {{mote_id}}
+                        <h4 ng-class="animateSensor(mote_id)">{{mote_id}}</h4>
                     </div>
                 </div>
 

@@ -11,6 +11,7 @@ MainController.$inject = ['$scope', '$http', '$timeout']
 function MainController($scope, $http, $timeout) {
 
     const socket = io('localhost:3000')
+    let current_id = -1
     $scope.charts = []
     $scope.temperature_charts = {}
     $scope.luminosity_charts = {}
@@ -25,15 +26,25 @@ function MainController($scope, $http, $timeout) {
             createCharts()
         })
 
-    /**
-     * Socket.io
-     */
 
+    const animateSensor = (id) => {
+        const className = 'text-danger'
+
+        if (current_id === id) return className
+
+        return ''
+    }
+
+    /**
+    * Socket.io
+    */
     socket.on('message', (message) => {
 
         const network = _.find($scope.networks, net => {
             return _.includes(net.mote_ids, message.id_mote)
         })
+
+        current_id = message.id_mote
 
         console.log('New message from network ' + network.id, message)
 
@@ -80,10 +91,16 @@ function MainController($scope, $http, $timeout) {
 
             $scope.charts[network.id] = chart
 
-            $scope.temperature_charts[network.id] = chart
+            $scope.temperature_charts[network.id] = _.cloneDeep(chart)
 
-            $scope.luminosity_charts[network.id] = chart
+            chart.colors = ['#f7464a']
+
+            $scope.luminosity_charts[network.id] = _.cloneDeep(chart)
         })
     }
+
+
+    // expose functions
+    $scope.animateSensor = animateSensor
 
 }
