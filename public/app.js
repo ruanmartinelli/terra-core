@@ -28,7 +28,7 @@ function MainController($scope, $http, $timeout) {
 
 
     const animateSensor = (id) => {
-        const className = 'text-danger'
+        const className = 'text-danger bold'
 
         if (current_id === id) return className
 
