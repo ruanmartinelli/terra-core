@@ -32,7 +32,7 @@ const init = (app) => {
 
 const initSimulation = (app) => {
 
-    const max_interval = 1200
+    const max_interval = 500
     let counter = 0
 
     setInterval(() => {
@@ -46,7 +46,7 @@ const initSimulation = (app) => {
         }
 
         dispatcher.dispatchEvent(fake_event)
-    }, random(900, max_interval))
+    }, random(500, max_interval))
 
 
 }

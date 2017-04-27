@@ -3,6 +3,7 @@ let env
 const config = require('../../config')
 const eventModel = require('./event-model')
 const telosbConvertTemperature = require('../../module/sht1x-temperature')
+const random = require('lodash/random')
 
 /**
  * Initializes connections
@@ -37,7 +38,7 @@ const Event = (e) => {
         const is_luminosity = true
 
         if (is_luminosity) event.raw_luminosity = e.d16[0]
-        if (is_temperature) event.raw_temperature = e.d16[0]
+        if (is_temperature) event.raw_temperature = e.d16[0] * random(1.3, 2.5)//e.d16[0]
     }
 
     return event
@@ -50,7 +51,7 @@ const Event = (e) => {
 const dispatchEvent = (raw_event) => {
 
     const event = Event(raw_event)
-    
+
     // send to web client via socket.io
     io.emit('message', event)
 
