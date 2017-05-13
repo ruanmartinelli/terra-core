@@ -21,9 +21,6 @@ const init = (app) => {
     subscriber.on('message', (channel, message) => {
         let m = JSON.parse(message.toString())
 
-        m.id_mote = m.source
-        m.fake_value = getTemperature()
-
         dispatcher.dispatchEvent(m)
 
         console.log(' [New Message]: ', channel.toString(), message.toString())
