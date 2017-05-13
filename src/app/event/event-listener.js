@@ -4,8 +4,9 @@ const moment = require('moment')
 const sample = require('lodash/sample')
 const random = require('lodash/random')
 const dispatcher = require('./event-dispatcher')
+const config = require('../../config')
 
-const ports = [9002, 9003, 9004, 9005, 9006, 9007, 9008, 9009, 9010, 9011, 9012]
+const ports = config.networks.map(net => net.port)
 
 const init = (app) => {
 
