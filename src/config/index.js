@@ -1,8 +1,8 @@
-// DO NOT PUT REAL KEYS AND REMOTE CREDENTIALS HERE
-
+// DO NOT PUT REAL KEYS AND/OR REMOTE CREDENTIALS HERE
 let config = {}
 
 config.port = 9191
+config.socket_io_port = 3000
 
 config.db_host = 'localhost'
 config.db_user = 'root'
@@ -17,5 +17,7 @@ config.networks = [
 
 config.id_temperature_event = 1
 config.id_luminosity_event = 2
+
+config.simulation_interval = 2000
 
 module.exports = config

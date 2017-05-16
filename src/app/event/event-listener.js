@@ -12,6 +12,7 @@ const init = (app) => {
 
     subscriber.subscribe('event')
 
+    // TODO: localhost should be fetch from config
     ports.map(port => subscriber.connect('tcp://localhost:' + port))
 
     // subscriber.monitor(500, 0)
@@ -30,7 +31,7 @@ const init = (app) => {
 
 const initSimulation = (app) => {
 
-    const max_interval = 500
+    const max_interval = config.simulation_interval
     let counter = 0
 
     setInterval(() => {
@@ -44,7 +45,7 @@ const initSimulation = (app) => {
         }
 
         dispatcher.dispatchEvent(fake_event)
-    }, random(500, max_interval))
+    }, random(max_interval - 500, max_interval))
 
 
 }

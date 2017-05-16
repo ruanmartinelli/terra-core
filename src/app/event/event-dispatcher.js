@@ -1,9 +1,9 @@
 let io
-let env
 const config = require('../../config')
 const eventModel = require('./event-model')
 const telosbConvertTemperature = require('../../module/sht1x-temperature')
 const random = require('lodash/random')
+const chalk = require('chalk')
 
 /**
  * Initializes connections
@@ -13,9 +13,10 @@ const init = (app) => {
     const server = require('http').createServer(app)
 
     io = require('socket.io')(server)
-    io.on('connection', (socket) => console.log(' -- user connected'))
-    env = app.get('env')
-    server.listen(3000)
+    io.on('connection', (socket) => {
+        console.log(`${chalk.bold(' 🔌 Socket.io: connected on port ' + config.socket_io_port)}`)
+    })
+    server.listen(config.socket_io_port)
 }
 
 /**
@@ -50,6 +51,8 @@ const Event = (e) => {
  */
 const dispatchEvent = (raw_event) => {
 
+    console.log(` ${chalk.bold('📥 Event received from mote ' + raw_event.source)}`)
+
     const event = Event(raw_event)
 
     // send to web client via socket.io
@@ -63,6 +66,8 @@ const dispatchEvent = (raw_event) => {
 
     // TODO
     // convert(event)
+
+    return event
 }
 
 
