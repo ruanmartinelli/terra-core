@@ -1,5 +1,5 @@
 const low = require('lowdb')
-const db = low('db.json')
+const db = low('./src/database/db.json')
 
 db.defaults({ events: [] }).write()
 
