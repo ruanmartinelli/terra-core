@@ -1,10 +1,10 @@
 
-if(arg[1] == nil) then 
+if(arg[1] == nil) then
 	print('  [ERROR] missing parameter \'port\'')
 	print('  usage: lua main.lua <port>')
-	os.exit() 
+	os.exit()
 end;
- 
+
 port = arg[1]
 print('sending code to port:' .. port)
 
@@ -33,19 +33,19 @@ enviou = false;
 exit = false;
 
 while not(exit) do
-    
+
     while not(mote) do
-        
+
         print ('Tentando conectar');
         mote = tossam.connect
         {
-            protocol = "sf",
-            host     = "localhost",
-            port     = port,
-            nodeid   = 1
+					protocol = "network",
+					host     = "192.168.2.202",
+					port     = port,
+					nodeid   = 20
         }
         if mote then
-            
+
             -- register tossam tables
             mote:register [[
             nx_struct msg_serial [145] {
@@ -57,9 +57,9 @@ while not(exit) do
                 nx_uint32_t d32[2];
             };
             ]]
-            
-            
-            
+
+
+
             mote:register [[
             nx_struct msg_serial [160] {
                 nx_uint16_t versionId;
@@ -76,7 +76,7 @@ while not(exit) do
                 nx_uint16_t async0;
             } ;
             ]]
-            
+
             mote:register [[
             nx_struct msg_serial [162] {
                 nx_uint8_t reqOper;
@@ -84,8 +84,8 @@ while not(exit) do
                 nx_uint16_t blockId;
             };
             ]]
-            
-            
+
+
             mote:register [[
             nx_struct msg_serial [161] {
                 nx_uint16_t versionId;
@@ -93,28 +93,28 @@ while not(exit) do
                 nx_uint8_t data[24];
             };
             ]]
-            
+
             print ('conexao bem sucedida');
-            
+
             os.execute("sleep " .. tonumber(n_sleepTimeS))
         else
             print ('conexão falhou, tentando novamente em ' .. n_sleepTimeS .. ' segundos')
-            
+
             os.execute("sleep " .. tonumber(n_sleepTimeS))
         end
     end
-    
+
     local f = io.open("sendMsg.vmx",'r')
     s_vmx = f:read("*a");
 
     if s_vmx ~= nil then
-        
+
         enviou = false;
-        
+
         ProgBin:le_arquivo(s_vmx);
-        
+
         vID = vID + 1;
-        
+
         -- all properties must be strings
         msg_newProVer = {
         versionId = vID,
@@ -142,7 +142,7 @@ for k, v in pairs( msg_newProVer ) do
 end
 
 while (mote) do
-    
+
     local stat, msg, emsg = pcall(function() return mote:receive() end)
     if stat then
         print("")
@@ -160,42 +160,42 @@ while (mote) do
                     -- version_file = io.open("versionID.lua", "w")
                     -- version_file:write(msg.versionID .. '')
                     -- version_file:close()
-                    
+
                     -- vID = msg.versionID + 1;
                 end
-                
+
                 --carrega com progbin
                 msg_blk = {
                   versionId = vID;
                   blockId = msg.blockId;
                   data = ProgBin.ProgData[msg.blockId + 1];
             }
-            
+
             mote:send(msg_blk,161)--envia o bloco
             print("     message type: " .. msg[1]) ;
                 print('     block ' .. msg.blockId .. ' sent ' );
             else
                 print("     message type: " .. msg[1]) ;
                 end
-                
+
                 if msg[1] == 161 then
                     if (msg.blockId + 1) == ProgBin.lastBlock then
                         --ultima mensagem recebida
                         print("     received final message! code from " .. vID .. " is running " ) ;
-                        
+
                         version_file = io.open("versionID.lua", "w")
                         version_file:write(vID .. '')
-                        
+
                         version_file:close()
-                        
+
                         enviou = true;
-                        
+
                         break;
                     end
-                    
+
                 end
-                
-                
+
+
             else
                 if emsg == "closed" then
                     --caso entre aqui não é para desconectar, é para tentar conectar novamente até conseguir
@@ -217,10 +217,10 @@ while (mote) do
             break
         end
     end
-    
+
     --fim do envio, após carregar, o arquivo eh enviado para uma outra pasta de backup
     if enviou then
         exit = true;
     end
-    
+
 end
