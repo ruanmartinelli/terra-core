@@ -1,12 +1,12 @@
-if(arg[1] == nil) then 
+if(arg[1] == nil) then
 	print('  [ERROR] missing parameter \'port\'')
 	print('  usage: lua main.lua <port> [<host>]')
-	os.exit() 
+	os.exit()
 end;
 
-if(arg[2] == nil) then 
-    host = "192.168.1.106" 
-else 
+if(arg[2] == nil) then
+    host = "192.168.1.106"
+else
     host = arg[2]
 end
 
@@ -29,10 +29,10 @@ publisher:bind("tcp://*:"..port)
 
 while not(exit) do
     local mote = tossam.connect {
-        protocol = "sf",
+        protocol = "network",
         host     = host,
         port     = port,
-        nodeid   = 1
+        nodeid   = 20
     }
     if not(mote) then print("  ! connection error\n  ! aborting"); return(1); end
 
@@ -46,7 +46,7 @@ while not(exit) do
         nx_uint32_t d32[2];
     };
     ]]
-    
+
     while (mote) do
         local stat, msg, emsg = pcall(function() return mote:receive() end)
         if stat then
