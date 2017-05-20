@@ -104,7 +104,7 @@ while not(exit) do
         end
     end
 
-    local f = io.open("sendMsg.vmx",'r')
+    local f = io.open("LauraTest01.vmx",'r')
     s_vmx = f:read("*a");
 
     if s_vmx ~= nil then
