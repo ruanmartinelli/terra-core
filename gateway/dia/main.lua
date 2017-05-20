@@ -23,12 +23,12 @@ else
 
 	port = arg[1]
 	host = arg[2]
-	nodeid = arg[3]
+	nodeid = tonumber(arg[3])
 end;
 
 arqVMX = "LauraTest01.vmx"
 
-print('sending code to config:' .. port .. ' ' .. host .. ' ' .. nodeid)
+print('sending code to config: ' .. port .. ' ' .. host .. ' ' .. nodeid)
 
 local tossam = require("tossam")
 

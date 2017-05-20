@@ -23,7 +23,7 @@ else
 
 	port = arg[1]
 	host = arg[2]
-	nodeid = arg[3]
+	nodeid = tonumber(arg[3])
 end;
 
 print(' -- listening for messages in port ' .. port)
@@ -45,7 +45,7 @@ while not(exit) do
     local mote = tossam.connect {
         protocol = "network",
         host     = host,
-        port     = port,
+        port     = '10002',
         nodeid   = nodeid
     }
     if not(mote) then print("  ! connection error\n  ! aborting"); return(1); end
