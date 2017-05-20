@@ -1,12 +1,34 @@
+if (arg[1] == 'default') then
+	port = '10002'
+	host = '192.168.2.202'
+	nodeid = 20
+else
+	if (arg[1] == nil) then
+		print('  [ERROR] missing parameter \'port\'')
+		print('  usage: lua main.lua <port> <ip address> <nodeId>')
+		os.exit()
+	end;
 
-if(arg[1] == nil) then
-	print('  [ERROR] missing parameter \'port\'')
-	print('  usage: lua main.lua <port>')
-	os.exit()
+	if(arg[2] == nil) then
+		print('  [ERROR] missing parameter \'id address\'')
+		print('  usage: lua main.lua <port> <ip address> <nodeId>')
+		os.exit()
+	end;
+
+	if(arg[3] == nil) then
+		print('  [ERROR] missing parameter \'nodeId\'')
+		print('  usage: lua main.lua <port> <ip address> <nodeId>')
+		os.exit()
+	end;
+
+	port = arg[1]
+	host = arg[2]
+	nodeid = arg[3]
 end;
 
-port = arg[1]
-print('sending code to port:' .. port)
+arqVMX = "LauraTest01.vmx"
+
+print('sending code to config:' .. port .. ' ' .. host .. ' ' .. nodeid)
 
 local tossam = require("tossam")
 
@@ -40,9 +62,9 @@ while not(exit) do
         mote = tossam.connect
         {
 					protocol = "network",
-					host     = "192.168.2.202",
+					host     = host,
 					port     = port,
-					nodeid   = 20
+					nodeid   = nodeid
         }
         if mote then
 
@@ -104,7 +126,7 @@ while not(exit) do
         end
     end
 
-    local f = io.open("sendMsg.vmx",'r')
+    local f = io.open(arqVMX,'r')
     s_vmx = f:read("*a");
 
     if s_vmx ~= nil then
