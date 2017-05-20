@@ -14,22 +14,43 @@ function MainController($scope, $http, $timeout) {
 
   $http.get('/api/network').then(res => res.data).then(networks => {
     $scope.networks = networks
-
     createCharts()
+    initDelayArrays()
   })
 
   const animateSensor = id => {
     const className = 'text-danger bold'
-
     if (current_id === id) return className
-
     return ''
+  }
+
+  const initDelayArrays = () => {
+    // create delay arrays
+    _.forEach($scope.networks, net => {
+      net.delays = {}
+      net.delays.temperature = []
+      net.delays.luminosity = []
+    })
+  }
+
+  const getTotalDelay = () => {
+    let all_delays = []
+    _.forEach($scope.networks, net => {
+      net.delays.temperature.forEach(value => all_delays.push(value))
+      net.delays.luminosity.forEach(value => all_delays.push(value))
+    })
+    return _.mean(all_delays)
   }
 
   /**
     * Socket.io
     */
   socket.on('message', message => {
+    const curr_time = moment()
+    const gateway_time = moment(message.gateway_time)
+
+    const delay = curr_time.diff(gateway_time, 'milliseconds')
+
     const network = _.find($scope.networks, net => {
       return _.includes(net.mote_ids, message.id_mote)
     })
@@ -47,6 +68,9 @@ function MainController($scope, $http, $timeout) {
 
       // temperature chart
       if (temp) {
+        // push delay
+        network.delays.temperature.push(delay)
+
         $scope.temperature_charts[network.id].data[0].push(temp)
         $scope.temperature_charts[network.id].labels.push(time)
 
@@ -58,6 +82,9 @@ function MainController($scope, $http, $timeout) {
 
       //luminosity chart
       if (lumi) {
+        // push delay
+        network.delays.luminosity.push(delay)
+
         $scope.luminosity_charts[network.id].data[0].push(lumi)
         $scope.luminosity_charts[network.id].labels.push(time)
 
@@ -92,4 +119,6 @@ function MainController($scope, $http, $timeout) {
 
   // expose functions
   $scope.animateSensor = animateSensor
+  $scope.getTotalDelay = getTotalDelay
+  $scope.meanBy = _.mean
 }

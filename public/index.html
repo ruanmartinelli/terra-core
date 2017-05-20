@@ -14,9 +14,14 @@
 <body ng-controller="MainController">
 
     <div class="container">
-
-        <h1>Terra<strong>Web</strong><small class="text-muted"> v2.0</small></h1>
-
+        <div class="row">
+            <div class="col-lg-6">
+                <h1>Terra<strong>Web</strong><small class="text-muted"> v2.0</small></h1>
+            </div>
+            <div class="col-lg-6">
+                <h3 class="text-primary pull-right">⏲️ {{getTotalDelay() || 0 | number:0}} ms</h3>
+            </div>
+        </div>
         <div class="row"
              ng-repeat="network in networks">
             <hr>
@@ -30,9 +35,20 @@
                     </div>
                 </div>
 
-                <div class="row text-center">
+                <div class="row">
                     <div class="col-lg-6">
-                        <h5>Temperature</h5>
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <h4>🌡Temperature</h4>
+                            </div>
+                            <div class="col-lg-6">
+                                <h4 style="text-align:right"
+                                    class="text-primary">
+                                    ⏲️ {{(meanBy(network.delays.temperature) || 0) | number:0}}ms
+                                </h4>
+                            </div>
+                        </div>
+
                         <canvas id="line"
                                 width="10"
                                 class="chart chart-line"
@@ -42,13 +58,23 @@
                                 chart-options="temperature_charts[network.id].options">
                     </div>
                     <div class="col-lg-6">
-                        <h5>Luminosity</h5>
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <h4>☀️ Luminosity</h4>
+                            </div>
+                            <div class="col-lg-6">
+                                <h4 style="text-align:right"
+                                    class="text-primary">
+                                    ⏲️ {{(meanBy(network.delays.luminosity) || 0) | number:0}}ms
+                                </h4>
+                            </div>
+                        </div>
+
                         <canvas id="line" width="10" class="chart chart-line" chart-data="luminosity_charts[network.id].data" chart-labels="luminosity_charts[network.id].labels"
                             chart-series="luminosity_charts[network.id].series" chart-options="luminosity_charts[network.id].options"
                             chart-colors="luminosity_charts[network.id].colors">
                     </div>
                 </div>
-
                 <div class="row">
                     <div class="col-lg-2">
                         <h3> <strong>Motes</strong></h3>
@@ -71,8 +97,8 @@
     <script src="vendor/socket.io.min.js" charset="utf-8"></script>
     <script src="vendor/Chart.min.js" charset="utf-8"></script>
     <script src="vendor/angular-chart.min.js" charset="utf-8"></script>
-
     <script src="app.js" charset="utf-8"></script>
+
 
 </body>
 
