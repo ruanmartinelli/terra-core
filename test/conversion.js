@@ -9,7 +9,7 @@ test('convert mba100', t => {
 
   const celsius = mda100_temperature(sample_data)
 
-  console.log(`${chalk.bgBlue('MBA100: ' + celsius)}`)
+  // console.log(`${chalk.bgBlue('MBA100: ' + celsius)}`)
 
   t.is(isNumber(celsius), true)
 })
@@ -19,7 +19,7 @@ test('convert sht1x (telosb)', t => {
 
   const celsius = sht1x_temperature(sample_data)
 
-  console.log(`${chalk.bgBlue('SHT1x: ' + celsius)}`)
+  // console.log(`${chalk.bgBlue('SHT1x: ' + celsius)}`)
 
   t.is(isNumber(celsius), true)
 })
