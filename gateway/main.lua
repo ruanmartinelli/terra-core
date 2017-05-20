@@ -1,16 +1,30 @@
-if(arg[1] == nil) then
-	print('  [ERROR] missing parameter \'port\'')
-	print('  usage: lua main.lua <port> [<host>]')
-	os.exit()
-end;
-
-if(arg[2] == nil) then
-    host = "192.168.1.106"
+if (arg[1] == 'default') then
+	port = '10002'
+	host = '192.168.2.202'
+	nodeid = 20
 else
-    host = arg[2]
-end
+	if (arg[1] == nil) then
+		print('  [ERROR] missing parameter \'port\'')
+		print('  usage: lua main.lua <port> <ip address> <nodeId>')
+		os.exit()
+	end;
 
-port = arg[1]
+	if(arg[2] == nil) then
+		print('  [ERROR] missing parameter \'id address\'')
+		print('  usage: lua main.lua <port> <ip address> <nodeId>')
+		os.exit()
+	end;
+
+	if(arg[3] == nil) then
+		print('  [ERROR] missing parameter \'nodeId\'')
+		print('  usage: lua main.lua <port> <ip address> <nodeId>')
+		os.exit()
+	end;
+
+	port = arg[1]
+	host = arg[2]
+	nodeid = arg[3]
+end;
 
 print(' -- listening for messages in port ' .. port)
 print(' -- connecting to host ' .. host)
@@ -32,7 +46,7 @@ while not(exit) do
         protocol = "network",
         host     = host,
         port     = port,
-        nodeid   = 20
+        nodeid   = nodeid
     }
     if not(mote) then print("  ! connection error\n  ! aborting"); return(1); end
 
