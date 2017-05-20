@@ -127,6 +127,7 @@ while not(exit) do
     end
 
     local f = io.open(arqVMX,'r')
+
     s_vmx = f:read("*a");
 
     if s_vmx ~= nil then

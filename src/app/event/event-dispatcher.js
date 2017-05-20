@@ -3,6 +3,8 @@ const config = require('../../config')
 const eventModel = require('./event-model')
 const random = require('lodash/random')
 const chalk = require('chalk')
+const mda100_temperature = require('../../helpers/mda100-temperature')
+const sht1x_temperature = require('../../helpers/sht1x-temperature')
 
 /**
  * Initializes connections
@@ -34,12 +36,14 @@ const Event = e => {
   if (e.gateway_time) event.gateway_time = e.gateway_time
   if (e.d8 && e.d8[0]) event.counter = e.d8[0]
   if (e.d16 && e.d16[0]) {
+    const { id_temperature_event, id_luminosity_event } = config
+
     // TODO: add correct validation of sensor data type
-    const is_temperature = true
-    const is_luminosity = true
+    const is_temperature = e.id == id_temperature_event
+    const is_luminosity = e.id == id_luminosity_event
 
     if (is_luminosity) event.raw_luminosity = e.d16[0]
-    if (is_temperature) event.raw_temperature = e.d16[0] * random(1.3, 2.5) //e.d16[0]
+    if (is_temperature) event.raw_temperature = e.d16[0]
   }
 
   return event
@@ -56,6 +60,8 @@ const dispatchEvent = raw_event => {
 
   const event = Event(raw_event)
 
+  convert(event)
+
   // send to web client via socket.io
   io.emit('message', event)
 
@@ -65,30 +71,32 @@ const dispatchEvent = raw_event => {
   // save to database
   eventModel.addEvent(event)
 
-  // TODO
-  // convert(event)
-
   return event
 }
 
 const convert = event => {
-  const networks = config.networks
+  const { raw_temperature, id_mote } = event
+  const { networks } = config
 
-  const functions = {
-    MDA100: () => 0, // TODO
-    TELOSB: telosbConvertTemperature
-  }
+  if (!raw_temperature) return
 
-  const data_is_temperature =
-    event.id && event.id == config.id_temperature_event
+  let model = ''
 
-  if (data_is_temperature) {
-    networks.forEach(network => {
-      // node id not registered in config
-      if (!network.mote_ids.includes(event.source)) return
+  networks.forEach(network => {
+    if (network.mote_ids.includes(id_mote)) {
+      model = network.model
+    }
+  })
 
-      event.celsius = functions[network.model](event.d16[0])
-    })
+  switch (model) {
+    case 'MDA100':
+      event.temperature = mda100_temperature(raw_temperature)
+      break
+    case 'TELOSB':
+      event.temperature = sht1x_temperature(raw_temperature)
+      break
+    default:
+      event.temperature = null
   }
 }
 
