@@ -19,14 +19,14 @@ config.networks = [
   },
   {
     id: '02',
-    port: '10003',
+    port: '10002',
     address: '192.168.2.202',
     model: 'MDA100',
     mote_ids: [20, 21, 22, 23, 24, 25, 26, 27, 28, 29]
   },
   {
     id: '03',
-    port: '10004',
+    port: '10002',
     address: '192.168.2.203',
     model: 'MDA100',
     mote_ids: [30, 31, 32, 33, 34]
