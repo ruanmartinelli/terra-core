@@ -4,9 +4,6 @@ const mda100_temperature = require('../src/helpers/mda100-temperature')
 const sht1x_temperature = require('../src/helpers/sht1x-temperature')
 const chalk = require('chalk')
 
-// const telosb = 6648
-// const mda = 528
-
 test('convert mba100', t => {
   const sample_data = 497
 
@@ -18,7 +15,7 @@ test('convert mba100', t => {
 })
 
 test('convert sht1x (telosb)', t => {
-  const sample_data = 528
+  const sample_data = 6511
 
   const celsius = sht1x_temperature(sample_data)
 

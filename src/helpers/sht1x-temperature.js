@@ -6,7 +6,7 @@
 // prettier-ignore
 module.exports = value => {
   const d1 = -39.6
-  const d2 = 0.04
+  const d2 = 0.01
 
   return (value * d2 ) + d1 
 }
