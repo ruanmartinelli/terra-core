@@ -3,19 +3,19 @@ const dispatcher = require('./event-dispatcher')
 const eventController = require('./event-controller')
 const chalk = require('chalk')
 
-const init = (app) => {
+const init = app => {
+  console.log(chalk.bold(` 🛰 Starting Event listeners`))
 
-    console.log(chalk.bold(` 🛰 Starting Event listeners`))
+  dispatcher.init(app)
 
-    dispatcher.init(app)
+  if (app.get('env').toUpperCase() == 'DEVELOPMENT') listener.init(app)
 
-    if (app.get('env').toUpperCase() == 'DEVELOPMENT') listener.init(app)
+  if (app.get('env').toUpperCase() != 'DEVELOPMENT')
+    listener.initSimulation(app)
 
-    if (app.get('env').toUpperCase() != 'DEVELOPMENT') listener.initSimulation(app)
+  console.log(chalk.bold(` 🛰 Creating Event routes`))
 
-    console.log(chalk.bold(` 🛰 Creating Event routes`))
-
-    app.get('/api/event', eventController.getEvents)
+  app.get('/api/event', eventController.getEvents)
 }
 
 module.exports.init = init

@@ -8,46 +8,43 @@ const config = require('../../config')
 
 const ports = config.networks.map(net => net.port)
 
-const init = (app) => {
+const init = app => {
+  subscriber.subscribe('event')
 
-    subscriber.subscribe('event')
+  // TODO: localhost should be fetch from config
+  ports.map(port => subscriber.connect('tcp://localhost:' + port))
 
-    // TODO: localhost should be fetch from config
-    ports.map(port => subscriber.connect('tcp://localhost:' + port))
+  // subscriber.monitor(500, 0)
 
-    // subscriber.monitor(500, 0)
+  subscriber.on('subscribe', (fd, ep) =>
+    console.log('-- connected to publisher')
+  )
 
-    subscriber.on('subscribe', (fd, ep) => console.log('-- connected to publisher'))
+  subscriber.on('message', (channel, message) => {
+    let m = JSON.parse(message.toString())
 
-    subscriber.on('message', (channel, message) => {
-        let m = JSON.parse(message.toString())
+    dispatcher.dispatchEvent(m)
 
-        dispatcher.dispatchEvent(m)
-
-        console.log(' [New Message]: ', channel.toString(), message.toString())
-    })
-
+    console.log(' [New Message]: ', channel.toString(), message.toString())
+  })
 }
 
-const initSimulation = (app) => {
+const initSimulation = app => {
+  const max_interval = config.simulation_interval
+  let counter = 0
 
-    const max_interval = config.simulation_interval
-    let counter = 0
+  setInterval(() => {
+    const fake_event = {
+      port: random(9002, 9005),
+      source: random(10, 34), // should match ids from config file
+      gateway_time: new Date().getTime() - random(400, 500),
+      d8: [counter++, 0, 0, 0],
+      d16: [random(400, 470), 0, 0, 0],
+      target: 30
+    }
 
-    setInterval(() => {
-        const fake_event = {
-            port: random(9002, 9005),
-            source: random(10, 34), // should match ids from config file
-            gateway_time: new Date().getTime() - random(400, 500),
-            d8: [counter++, 0, 0, 0],
-            d16: [random(400, 470), 0, 0, 0],
-            target: 30
-        }
-
-        dispatcher.dispatchEvent(fake_event)
-    }, random(max_interval - 500, max_interval))
-
-
+    dispatcher.dispatchEvent(fake_event)
+  }, random(max_interval - 500, max_interval))
 }
 
 module.exports.init = init

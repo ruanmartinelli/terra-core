@@ -4,14 +4,14 @@ const db = low('./src/database/db.json')
 db.defaults({ events: [] }).write()
 
 function addEvent(event) {
-    db.get('events').push(event).write()
+  db.get('events').push(event).write()
 }
 
 const getEvents = () => {
-    return db.get('events')
+  return db.get('events')
 }
 
 module.exports = {
-    addEvent,
-    getEvents
+  addEvent,
+  getEvents
 }

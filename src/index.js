@@ -18,12 +18,12 @@ app.use(morgan('dev'))
 require('./app').init(app)
 
 app.use((err, req, res, next) => {
-    if (err.status && err.message) res.status(err.status).send(err)
+  if (err.status && err.message) res.status(err.status).send(err)
 
-    if (!err.status || !err.message) {
-        console.log(err)
-        res.status(500).send(`Ops :( Something went bad (500)`)
-    }
+  if (!err.status || !err.message) {
+    console.log(err)
+    res.status(500).send(`Ops :( Something went bad (500)`)
+  }
 })
 
 module.exports = app
