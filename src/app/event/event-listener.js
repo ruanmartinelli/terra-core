@@ -35,6 +35,7 @@ const initSimulation = app => {
 
   setInterval(() => {
     const fake_event = {
+      id: random(1, 2),
       port: random(9002, 9005),
       source: 20, //random(10, 34), // should match ids from config file
       gateway_time: new Date().getTime() - random(400, 500),

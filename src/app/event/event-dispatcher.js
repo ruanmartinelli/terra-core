@@ -36,9 +36,11 @@ const Event = e => {
   if (e.gateway_time) event.gateway_time = e.gateway_time
   if (e.d8 && e.d8[0]) event.counter = e.d8[0]
   if (e.d16 && e.d16[0]) {
+    const { id_temperature_event, id_luminosity_event } = config
+
     // TODO: add correct validation of sensor data type
-    const is_temperature = true
-    const is_luminosity = true
+    const is_temperature = e.id == id_temperature_event
+    const is_luminosity = e.id == id_luminosity_event
 
     if (is_luminosity) event.raw_luminosity = e.d16[0]
     if (is_temperature) event.raw_temperature = e.d16[0]
@@ -58,7 +60,6 @@ const dispatchEvent = raw_event => {
 
   const event = Event(raw_event)
 
-  // TODO
   convert(event)
 
   // send to web client via socket.io
