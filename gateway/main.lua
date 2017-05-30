@@ -38,6 +38,7 @@ local tossam = require("tossam")
 local context = zmq.init(1)
 local publisher = context:socket(zmq.PUB)
 local exit = false
+local sck = require("socket")
 
 publisher:bind("tcp://*:"..port)
 
@@ -67,13 +68,16 @@ while not(exit) do
             print(emsg)
             if msg then
                 msg.port = port
-                msg.gateway_time = os.time() * 1000
+                --msg.gateway_time = os.clock() * 1000
+								msg.gateway_time = sck.gettime()*1000
 
                 print("------------------------------")
                 print("msgID: "..msg.id, "Source: ".. msg.source, "Target: ".. msg.target.." Port: "..msg.port)
                 print("d8:",unpack(msg.d8))
                 print("d16:",unpack(msg.d16))
                 print("d32:",unpack(msg.d32))
+								--print("gateway_time:",os.clock() * 1000)
+								print("gateway_time:",sck.gettime()*1000)
 
                 publisher:send("event", zmq.SNDMORE)
                 publisher:send(json.encode(msg))
