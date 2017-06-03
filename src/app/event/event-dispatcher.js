@@ -5,10 +5,11 @@ const random = require('lodash/random')
 const chalk = require('chalk')
 const mda100_temperature = require('../../helpers/mda100-temperature')
 const sht1x_temperature = require('../../helpers/sht1x-temperature')
+const moment = require('moment')
 
 /**
  * Initializes connections
- * @param {} app express app object 
+ * @param {} app express app object
  */
 const init = app => {
   const server = require('http').createServer(app)
@@ -25,7 +26,7 @@ const init = app => {
 /**
  * Mount the event following a certain standard
  * Works like a constructor
- * @param {Object} raw_data Raw event data 
+ * @param {Object} raw_data Raw event data
  * @returns {Object} The event object
  */
 const Event = e => {
@@ -51,16 +52,34 @@ const Event = e => {
 
 /**
  * Prepare, store and send the event through all channels
- * @param {*} raw_event Raw event data 
+ * @param {*} raw_event Raw event data
  */
 const dispatchEvent = raw_event => {
   console.log(
     ` ${chalk.bold('📥 Event received from mote ' + raw_event.source)}`
   )
 
+  /*const curr_time = moment()
+  console.log('curr_time:------------')
+  console.log(curr_time)
+  console.log('------------------')
+
+  const gateway_time = moment(raw_event.gateway_time)
+
+  console.log('gateway_time:------------')
+  console.log(gateway_time)
+  console.log('------------------')
+
+  const delay = curr_time.diff(gateway_time, 'milliseconds')
+
+  console.log('Daley:------------')
+  console.log(delay)
+  console.log('------------------')*/
+
   const event = Event(raw_event)
 
   convert(event)
+
 
   // send to web client via socket.io
   io.emit('message', event)
@@ -68,8 +87,8 @@ const dispatchEvent = raw_event => {
   // parse gateway_time
   event.gateway_time = new Date(event.gateway_time)
 
-  // save to database
-  eventModel.addEvent(event)
+  // save to database (ACHO QUE PARA O EXPERIMENTO NÃO PRECISA SALVAR NO BANCO TA GERANDO DELAY)
+  //eventModel.addEvent(event)
 
   return event
 }
