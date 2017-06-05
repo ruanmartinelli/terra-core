@@ -12,7 +12,7 @@ config.db_database = 'terra-db'
 config.networks = [
   {
     id: '01',
-    port: '10002',
+    port: '10001',
     address: '192.168.2.201',
     model: 'TELOSB',
     mote_ids: [10, 11, 12, 13, 14, 15]
@@ -26,7 +26,7 @@ config.networks = [
   },
   {
     id: '03',
-    port: '10002',
+    port: '10003',
     address: '192.168.2.203',
     model: 'MDA100',
     mote_ids: [30, 31, 32, 33, 34]
