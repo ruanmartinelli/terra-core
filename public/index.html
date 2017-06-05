@@ -19,7 +19,7 @@
                 <h1>Terra<strong>Web</strong><small class="text-muted"> v2.0</small></h1>
             </div>
             <div class="col-lg-6">
-                <h3 class="text-primary pull-right">⏲️ {{getTotalDelay() || 0 | number:0}} ms</h3>
+                <h3 class="text-primary pull-right">{{getTotalDelay() || 0 | number:0}} ms</h3>
             </div>
         </div>
         <div class="row"
@@ -44,7 +44,7 @@
                             <div class="col-lg-6">
                                 <h4 style="text-align:right"
                                     class="text-primary">
-                                    ⏲️ {{(meanBy(network.delays.temperature) || 0) | number:0}}ms
+                                     {{(meanBy(network.delays.temperature) || 0) | number:0}}ms
                                 </h4>
                             </div>
                         </div>
@@ -60,12 +60,12 @@
                     <div class="col-lg-6">
                         <div class="row">
                             <div class="col-lg-6">
-                                <h4>☀️ Luminosity</h4>
+                                <h4>Luminosity</h4>
                             </div>
                             <div class="col-lg-6">
                                 <h4 style="text-align:right"
                                     class="text-primary">
-                                    ⏲️ {{(meanBy(network.delays.luminosity) || 0) | number:0}}ms
+                                    {{(meanBy(network.delays.luminosity) || 0) | number:0}}ms
                                 </h4>
                             </div>
                         </div>
